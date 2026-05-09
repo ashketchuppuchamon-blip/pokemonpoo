@@ -1,0 +1,25 @@
+# Compilados
+*.class
+*.jar
+*.war
+*.ear
+bin/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
