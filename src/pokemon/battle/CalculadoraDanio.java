@@ -3,8 +3,16 @@ package pokemon.battle;
 import pokemon.model.Pokemon;
 import pokemon.model.Movimiento;
 
+/**
+ * Calculadora de daño que aplica la fórmula de daño Pokémon.
+ * STATIC: Los métodos son puros (sin estado), solo transforman datos.
+ */
 public class CalculadoraDanio {
 
+    /**
+     * STATIC: No necesita instancia, es una función pura.
+     * Calcula: (ATK × Poder / DEF) × Efectividad
+     */
     public static int calcular(Pokemon atk, Pokemon def, Movimiento mov) {
         double efectividad = mov.getTipo().efectividadContra(def.getTipo());
 

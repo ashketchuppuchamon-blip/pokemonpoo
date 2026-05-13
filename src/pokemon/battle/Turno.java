@@ -1,13 +1,17 @@
 package pokemon.battle;
 
-public class Turno {
+/**
+ * Representa un turno de batalla.
+ * DEFAULT: Visibilidad interna del paquete battle.
+ */
+class Turno {
     private int numero = 1;
 
-    public void siguiente() {
+    void siguiente() {
         numero++;
     }
 
-    public int getNumero() {
+    int getNumero() {
         return numero;
     }
 }

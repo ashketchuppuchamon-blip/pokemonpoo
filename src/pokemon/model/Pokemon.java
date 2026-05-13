@@ -3,6 +3,11 @@ package pokemon.model;
 import java.util.List;
 import pokemon.battle.CalculadoraDanio;
 
+/**
+ * Clase que representa un Pokémon individual.
+ * - NO tiene métodos static: cada Pokémon es una instancia única.
+ * - DEFAULT: Métodos internos privados o package-private.
+ */
 public class Pokemon {
 
     private String nombre;
@@ -18,7 +23,8 @@ public class Pokemon {
     private List<Movimiento> movimientos;
     private Estado estado;
 
-    public Pokemon(String nombre, int hp, int atk, int atkEsp, int def, int defEsp, int vel, int nivel, Tipo tipo, List<Movimiento> movs) {
+    public Pokemon(String nombre, int hp, int atk, int atkEsp, int def, int defEsp, 
+                   int vel, int nivel, Tipo tipo, List<Movimiento> movs) {
         this.nombre = nombre;
         this.hpMax = hp;
         this.hpActual = hp;
@@ -33,7 +39,11 @@ public class Pokemon {
         this.estado = new EstadoNormal();
     }
 
-    public void atacar(Pokemon objetivo, int index) {
+    /**
+     * Ejecuta un ataque del Pokémon.
+     * DEFAULT: Visibilidad de paquete porque solo batalla lo llama directamente.
+     */
+    void atacar(Pokemon objetivo, int index) {
         if (!estado.puedeAtacar()) {
             System.out.println(nombre + " está paralizado y no puede atacar!");
             return;
@@ -59,12 +69,38 @@ public class Pokemon {
         System.out.println(nombre + " usó " + mov.getNombre());
     }
 
-    public void aplicarEstado() {
+    /**
+     * DEFAULT: Método interno de paquete.
+     */
+    void aplicarEstado() {
         estado.aplicarEfecto(this);
     }
 
-    public void recibirDanio(int daño) {
+    /**
+     * DEFAULT: Método interno.
+     */
+    void recibirDanio(int daño) {
         hpActual = Math.max(0, hpActual - daño);
+    }
+
+    // ========== MÉTODOS UTILITARIOS ==========
+
+    /**
+     * STATIC: Métodos de utilidad que no dependen de instancia.
+     * Podrían estar en una clase UtilitasPokemon, pero aquí por ejemplo.
+     */
+    public static String obtenerEmojiTipo(Tipo tipo) {
+        switch (tipo) {
+            case FIRE: return "🔥";
+            case WATER: return "💧";
+            case GRASS: return "🌿";
+            case ELECTRIC: return "⚡";
+            case PSYCHIC: return "🧠";
+            case DRAGON: return "🐉";
+            case FIGHTING: return "💪";
+            case ICE: return "❄️";
+            default: return "⚪";
+        }
     }
 
     public boolean estaVivo() {
@@ -97,7 +133,7 @@ public class Pokemon {
                 nombre, nivel, hpActual, hpMax, ataque, defensa, velocidad);
     }
 
-    // Getters
+    // ========== GETTERS ==========
     public int getHp() { return hpActual; }
     public int getHpMax() { return hpMax; }
     public int getAtaque() { return ataque; }

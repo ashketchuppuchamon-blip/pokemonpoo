@@ -1,8 +1,12 @@
 package pokemon.model;
 
-public class EstadoParalizado extends Estado {
+/**
+ * Estado: Pokémon paralizado (25% chance de no poder atacar).
+ * DEFAULT: Visibilidad de paquete.
+ */
+class EstadoParalizado extends Estado {
 
-    public EstadoParalizado() {
+    EstadoParalizado() {
         super("Paralizado");
     }
 

@@ -2,11 +2,15 @@ package pokemon.model;
 
 import java.util.List;
 
-public class EstrategiaIA implements Estrategia {
+/**
+ * Estrategia de IA (toma decisiones automáticas).
+ * DEFAULT: Visibilidad package-private.
+ */
+class EstrategiaIA implements Estrategia {
 
     private int dificultad; // 1=fácil, 2=normal, 3=difícil
 
-    public EstrategiaIA(int dificultad) {
+    EstrategiaIA(int dificultad) {
         this.dificultad = dificultad;
     }
 
@@ -22,7 +26,7 @@ public class EstrategiaIA implements Estrategia {
             } while (!movimientos.get(index).tienePP());
             return index;
         } else if (dificultad == 2) {
-            // Normal: preferir movimientos con PP y poder
+            // Normal: preferir movimientos con poder
             return elegirMovimientoMejor(pokemon);
         } else {
             // Difícil: estrategia óptima
@@ -30,6 +34,9 @@ public class EstrategiaIA implements Estrategia {
         }
     }
 
+    /**
+     * DEFAULT: Método interno de cálculo.
+     */
     private int elegirMovimientoMejor(Pokemon pokemon) {
         List<Movimiento> movimientos = pokemon.getMovimientos();
         int mejorIndex = -1;
@@ -47,20 +54,16 @@ public class EstrategiaIA implements Estrategia {
     }
 
     private int elegirMovimientoOptimo(Pokemon pokemon) {
-        // Estrategia más inteligente considerando tipo vs defensor
         return elegirMovimientoMejor(pokemon);
     }
 
     @Override
     public boolean debeSwitch(Pokemon pokemonActual, List<Pokemon> equipo) {
         if (dificultad == 1) {
-            // Fácil: cambiar 20% de las veces
             return Math.random() < 0.2;
         } else if (dificultad == 2) {
-            // Normal: cambiar si HP bajo
             return pokemonActual.getHp() < pokemonActual.getHpMax() * 0.3;
         } else {
-            // Difícil: nunca cambiar (confiado en estrategia)
             return false;
         }
     }

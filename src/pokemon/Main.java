@@ -3,13 +3,22 @@ package pokemon;
 import pokemon.data.TipoLoader;
 import pokemon.ui.MenuPrincipal;
 
+/**
+ * Punto de entrada principal de la aplicación Pokémon POO.
+ * @author UTP
+ * @version 2.0 - Con static y default
+ */
 public class Main {
+
+    /**
+     * Método main - ejecuta la aplicación.
+     * STATIC: No necesita instancia de Main, es el punto de entrada.
+     */
     public static void main(String[] args) {
-        // IMPORTANTE: Cargar los tipos antes que nada
+        // Cargar tipos desde JSON (operación única al inicio)
         TipoLoader.cargarTipos("src/pokemon/data/tipos.json");
 
-        // Mostrar menú principal
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.mostrar();
+        // Ejecutar menú principal
+        MenuPrincipal.iniciar();
     }
 }

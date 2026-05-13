@@ -2,6 +2,10 @@ package pokemon.trainer;
 
 import pokemon.model.Estrategia;
 
+/**
+ * Clase abstracta que representa un entrenador.
+ * DEFAULT: Visibilidad de paquete para subclases del mismo paquete.
+ */
 public abstract class Entrenador {
 
     protected String nombre;
@@ -10,7 +14,7 @@ public abstract class Entrenador {
     protected int victorias;
     protected int derrotas;
 
-    public Entrenador(String nombre, Equipo equipo, Estrategia estrategia) {
+    Entrenador(String nombre, Equipo equipo, Estrategia estrategia) {
         this.nombre = nombre;
         this.equipo = equipo;
         this.estrategia = estrategia;
@@ -28,7 +32,10 @@ public abstract class Entrenador {
         derrotas++;
     }
 
-    public void restaurarEquipo() {
+    /**
+     * DEFAULT: Método interno que las subclases llaman.
+     */
+    void restaurarEquipo() {
         for (int i = 0; i < equipo.getTamaño(); i++) {
             equipo.get(i).restaurarHP();
             equipo.get(i).restaurarEstado();
@@ -36,7 +43,7 @@ public abstract class Entrenador {
         }
     }
 
-    // Getters
+    // ========== GETTERS ==========
     public String getNombre() { return nombre; }
     public Equipo getEquipo() { return equipo; }
     public Estrategia getEstrategia() { return estrategia; }

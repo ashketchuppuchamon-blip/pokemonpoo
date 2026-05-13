@@ -4,15 +4,23 @@ import pokemon.model.*;
 import pokemon.trainer.*;
 import java.util.*;
 
+/**
+ * STATIC FACTORY PATTERN: Crea instancias de EntrenadorIA predefinidos.
+ * Todos los métodos son STATIC porque crean objetos sin estado interno.
+ */
 public class EntrenadorFactory {
 
+    /**
+     * STATIC: Factory method que crea un EntrenadorIA.
+     */
     public static EntrenadorIA crearBlaine() {
         List<Pokemon> equipo = Arrays.asList(
                 Pokedex.arcanine(),
                 Pokedex.charizard(),
                 Pokedex.dragonite()
         );
-        return new EntrenadorIA("Blaine", new Equipo(equipo), new EstrategiaIA(1), 1, "Líder Fuego");
+        return new EntrenadorIA("Blaine", new Equipo(equipo), 
+                               crearEstrategiaIA(1), 1, "Líder Fuego");
     }
 
     public static EntrenadorIA crearMisty() {
@@ -21,7 +29,8 @@ public class EntrenadorFactory {
                 Pokedex.lapras(),
                 Pokedex.gyarados()
         );
-        return new EntrenadorIA("Misty", new Equipo(equipo), new EstrategiaIA(2), 2, "Líder Agua");
+        return new EntrenadorIA("Misty", new Equipo(equipo), 
+                               crearEstrategiaIA(2), 2, "Líder Agua");
     }
 
     public static EntrenadorIA crearErika() {
@@ -30,7 +39,8 @@ public class EntrenadorFactory {
                 Pokedex.charizard(),
                 Pokedex.lapras()
         );
-        return new EntrenadorIA("Erika", new Equipo(equipo), new EstrategiaIA(1), 1, "Líder Planta");
+        return new EntrenadorIA("Erika", new Equipo(equipo), 
+                               crearEstrategiaIA(1), 1, "Líder Planta");
     }
 
     public static EntrenadorIA crearBlue() {
@@ -42,7 +52,8 @@ public class EntrenadorFactory {
                 Pokedex.charizard(),
                 Pokedex.snorlax()
         );
-        return new EntrenadorIA("Blue", new Equipo(equipo), new EstrategiaIA(2), 2, "Tu Rival");
+        return new EntrenadorIA("Blue", new Equipo(equipo), 
+                               crearEstrategiaIA(2), 2, "Tu Rival");
     }
 
     public static EntrenadorIA crearLance() {
@@ -54,9 +65,20 @@ public class EntrenadorFactory {
                 Pokedex.arcanine(),
                 Pokedex.snorlax()
         );
-        return new EntrenadorIA("Lance", new Equipo(equipo), new EstrategiaIA(3), 3, "Campeón");
+        return new EntrenadorIA("Lance", new Equipo(equipo), 
+                               crearEstrategiaIA(3), 3, "Campeón");
     }
 
+    /**
+     * STATIC: Factory method privado para crear estrategias.
+     */
+    private static Estrategia crearEstrategiaIA(int dificultad) {
+        return new EstrategiaIA(dificultad);
+    }
+
+    /**
+     * STATIC: Retorna lista inmutable de todos los oponentes.
+     */
     public static List<EntrenadorIA> obtenerTodosOponentes() {
         return Arrays.asList(
                 crearBlaine(),

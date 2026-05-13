@@ -3,6 +3,10 @@ package pokemon.trainer;
 import pokemon.model.Pokemon;
 import java.util.List;
 
+/**
+ * Clase que representa el equipo de 6 Pokémon de un entrenador.
+ * DEFAULT: Métodos internos son package-private.
+ */
 public class Equipo {
 
     private List<Pokemon> pokemons;
@@ -13,7 +17,10 @@ public class Equipo {
         this.indexActual = 0;
     }
 
-    public Pokemon get(int i) {
+    /**
+     * DEFAULT: Método interno de acceso.
+     */
+    Pokemon get(int i) {
         return pokemons.get(i);
     }
 
@@ -21,7 +28,10 @@ public class Equipo {
         return pokemons.get(indexActual);
     }
 
-    public void cambiarA(int index) {
+    /**
+     * DEFAULT: Cambio interno durante batalla.
+     */
+    void cambiarA(int index) {
         if (index >= 0 && index < pokemons.size() && pokemons.get(index).estaVivo()) {
             indexActual = index;
         }
@@ -60,7 +70,8 @@ public class Equipo {
             Pokemon p = pokemons.get(i);
             String marca = (i == indexActual) ? ">>> " : "    ";
             String estado = p.estaVivo() ? "✓" : "✗";
-            System.out.printf("%s[%d] %s - HP: %d/%d %s\n", marca, i + 1, p.getNombre(), p.getHp(), p.getHpMax(), estado);
+            System.out.printf("%s[%d] %s - HP: %d/%d %s\n", marca, i + 1, p.getNombre(), 
+                             p.getHp(), p.getHpMax(), estado);
         }
     }
 }

@@ -1,10 +1,14 @@
 package pokemon.model;
 
+/**
+ * Clase abstracta que representa el estado del Pokémon.
+ * DEFAULT: Métodos internos del paquete model.
+ */
 public abstract class Estado {
 
     protected String nombre;
 
-    public Estado(String nombre) {
+    Estado(String nombre) {
         this.nombre = nombre;
     }
 

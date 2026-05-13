@@ -3,11 +3,15 @@ package pokemon.model;
 import java.util.List;
 import java.util.Scanner;
 
-public class EstrategiaJugador implements Estrategia {
+/**
+ * Estrategia del jugador humano (toma decisiones manuales).
+ * DEFAULT: Visibilidad package-private.
+ */
+class EstrategiaJugador implements Estrategia {
 
     private Scanner scanner;
 
-    public EstrategiaJugador() {
+    EstrategiaJugador() {
         this.scanner = new Scanner(System.in);
     }
 

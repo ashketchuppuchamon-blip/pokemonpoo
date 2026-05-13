@@ -7,21 +7,39 @@ import pokemon.data.EntrenadorFactory;
 import pokemon.data.Pokedex;
 import java.util.*;
 
+/**
+ * Menú principal de la aplicación.
+ * STATIC: El método iniciar() es static porque gestiona el flujo global.
+ * DEFAULT: Otros métodos son privados porque son internos de la clase.
+ */
 public class MenuPrincipal {
 
-    private Scanner scanner;
-    private EntrenadorJugador jugador;
-    private List<EntrenadorIA> oponentes;
+    private static Scanner scanner;
+    private static EntrenadorJugador jugador;
+    private static List<EntrenadorIA> oponentes;
 
-    public MenuPrincipal() {
-        this.scanner = new Scanner(System.in);
-        this.oponentes = EntrenadorFactory.obtenerTodosOponentes();
-        inicializarJugador();
+    /**
+     * STATIC: Constructor privado para prevenir instancias.
+     */
+    private MenuPrincipal() {
     }
 
-    private void inicializarJugador() {
+    /**
+     * STATIC: Método de inicialización.
+     */
+    public static void iniciar() {
+        scanner = new Scanner(System.in);
+        oponentes = EntrenadorFactory.obtenerTodosOponentes();
+        inicializarJugador();
+        mostrarMenuPrincipal();
+    }
+
+    /**
+     * DEFAULT: Método privado de inicialización de jugador.
+     */
+    private static void inicializarJugador() {
         System.out.println("\n" + "=".repeat(60));
-        System.out.println("🎮 BIENVENIDO A POKEMON SHOWDOWN - POO");
+        System.out.println("🎮 BIENVENIDO A POKÉMON SHOWDOWN - POO");
         System.out.println("=".repeat(60));
         System.out.print("\n¿Cuál es tu nombre entrenador? ");
         String nombre = scanner.nextLine();
@@ -32,7 +50,10 @@ public class MenuPrincipal {
         jugador = new EntrenadorJugador(nombre, apodo, equipoJugador, new EstrategiaJugador());
     }
 
-    private Equipo crearEquipo() {
+    /**
+     * DEFAULT: Crea equipo del jugador.
+     */
+    private static Equipo crearEquipo() {
         System.out.println("\n¿Cómo deseas crear tu equipo?");
         System.out.println("1. Usar equipo predefinido (recomendado)");
         System.out.println("2. Seleccionar Pokémon manualmente");
@@ -47,7 +68,10 @@ public class MenuPrincipal {
         }
     }
 
-    private Equipo crearEquipoPredefinido() {
+    /**
+     * DEFAULT: Equipos predefinidos con templates.
+     */
+    private static Equipo crearEquipoPredefinido() {
         System.out.println("\n=== EQUIPOS PREDEFINIDOS ===");
         System.out.println("1. Equipo Equilibrado (Fuego, Agua, Planta)");
         System.out.println("2. Equipo Ofensivo (Dragón, Psíquico, Lucha)");
@@ -59,17 +83,17 @@ public class MenuPrincipal {
         List<Pokemon> equipo = new ArrayList<>();
 
         switch (equipoElegido) {
-            case 1: // Equilibrado
+            case 1:
                 equipo.add(Pokedex.charizard());
                 equipo.add(Pokedex.blastoise());
                 equipo.add(Pokedex.venusaur());
                 break;
-            case 2: // Ofensivo
+            case 2:
                 equipo.add(Pokedex.dragonite());
                 equipo.add(Pokedex.alakazam());
                 equipo.add(Pokedex.machamp());
                 break;
-            case 3: // Defensivo
+            case 3:
                 equipo.add(Pokedex.lapras());
                 equipo.add(Pokedex.snorlax());
                 equipo.add(Pokedex.gyarados());
@@ -88,7 +112,10 @@ public class MenuPrincipal {
         return new Equipo(equipo);
     }
 
-    private Equipo crearEquipoPersonalizado() {
+    /**
+     * DEFAULT: Creación manual de equipo.
+     */
+    private static Equipo crearEquipoPersonalizado() {
         List<Pokemon> equipo = new ArrayList<>();
         String[] pokemones = {"Charizard", "Blastoise", "Venusaur", "Pikachu", "Alakazam", 
                               "Machamp", "Dragonite", "Arcanine", "Lapras", "Gyarados", "Snorlax"};
@@ -114,7 +141,10 @@ public class MenuPrincipal {
         return new Equipo(equipo);
     }
 
-    private Pokemon obtenerPokemon(String nombre) {
+    /**
+     * DEFAULT: Factory inline para obtener Pokémon por nombre.
+     */
+    private static Pokemon obtenerPokemon(String nombre) {
         switch (nombre) {
             case "Charizard": return Pokedex.charizard();
             case "Blastoise": return Pokedex.blastoise();
@@ -131,7 +161,10 @@ public class MenuPrincipal {
         }
     }
 
-    public void mostrar() {
+    /**
+     * STATIC: Menú principal de opciones.
+     */
+    private static void mostrarMenuPrincipal() {
         boolean ejecutando = true;
 
         while (ejecutando) {
@@ -170,13 +203,19 @@ public class MenuPrincipal {
         }
     }
 
-    private void verEquipo() {
+    /**
+     * DEFAULT: Muestra equipo del jugador.
+     */
+    private static void verEquipo() {
         jugador.getEquipo().mostrarEquipo();
         System.out.println("\nPulsa Enter para continuar...");
         scanner.nextLine();
     }
 
-    private void elegirOponenteYBatallar() {
+    /**
+     * DEFAULT: Flujo de batalla.
+     */
+    private static void elegirOponenteYBatallar() {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("⚔️  ELIGE TU OPONENTE");
         System.out.println("=".repeat(60));
@@ -192,11 +231,9 @@ public class MenuPrincipal {
         if (opcion >= 0 && opcion < oponentes.size()) {
             EntrenadorIA oponente = oponentes.get(opcion);
 
-            // Restaurar equipo antes de la batalla
             jugador.restaurarEquipo();
             oponente.restaurarEquipo();
 
-            // Ejecutar batalla
             Batalla batalla = new Batalla(jugador, oponente);
             batalla.iniciar();
 
@@ -207,7 +244,10 @@ public class MenuPrincipal {
         }
     }
 
-    private void verEstadisticas() {
+    /**
+     * DEFAULT: Muestra estadísticas.
+     */
+    private static void verEstadisticas() {
         System.out.println("\n" + "=".repeat(60));
         System.out.println("📊 ESTADÍSTICAS");
         System.out.println("=".repeat(60));
@@ -215,14 +255,18 @@ public class MenuPrincipal {
 
         System.out.println("\n=== RÉCORD CONTRA OPONENTES ===");
         for (EntrenadorIA oponente : oponentes) {
-            System.out.println(oponente.getNombre() + ": " + oponente.getVictorias() + "V - " + oponente.getDerrotas() + "D");
+            System.out.println(oponente.getNombre() + ": " + oponente.getVictorias() + 
+                             "V - " + oponente.getDerrotas() + "D");
         }
 
         System.out.println("\nPulsa Enter para continuar...");
         scanner.nextLine();
     }
 
-    private void restaurarEquipo() {
+    /**
+     * DEFAULT: Restaura equipo completo.
+     */
+    private static void restaurarEquipo() {
         jugador.restaurarEquipo();
         System.out.println("\n✅ ¡Tu equipo ha sido restaurado!");
         System.out.println("Todos los Pokémon recuperaron HP y PP.");

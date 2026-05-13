@@ -2,12 +2,16 @@ package pokemon.trainer;
 
 import pokemon.model.Estrategia;
 
-public class EntrenadorIA extends Entrenador {
+/**
+ * Entrenador de IA (controlado por computadora).
+ * DEFAULT: Visibilidad de paquete.
+ */
+class EntrenadorIA extends Entrenador {
 
-    private int dificultad; // 1=fácil, 2=normal, 3=difícil
+    private int dificultad;
     private String titulo;
 
-    public EntrenadorIA(String nombre, Equipo equipo, Estrategia estrategia, int dificultad, String titulo) {
+    EntrenadorIA(String nombre, Equipo equipo, Estrategia estrategia, int dificultad, String titulo) {
         super(nombre, equipo, estrategia);
         this.dificultad = dificultad;
         this.titulo = titulo;

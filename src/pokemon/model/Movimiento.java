@@ -1,5 +1,9 @@
 package pokemon.model;
 
+/**
+ * Representa un movimiento/ataque en batalla.
+ * DEFAULT: Visibilidad interna - solo Pokemon y CalculadoraDanio lo acceden.
+ */
 public class Movimiento {
 
     private String nombre;
@@ -18,25 +22,28 @@ public class Movimiento {
         this.ppActual = pp;
     }
 
-    public boolean acertar() {
+    /**
+     * DEFAULT: Verificación interna.
+     */
+    boolean acertar() {
         return Math.random() * 100 <= precision;
     }
 
-    public boolean tienePP() {
+    boolean tienePP() {
         return ppActual > 0;
     }
 
-    public void usarPP() {
+    void usarPP() {
         if (ppActual > 0) {
             ppActual--;
         }
     }
 
-    public void restaurarPP() {
+    void restaurarPP() {
         this.ppActual = ppMax;
     }
 
-    // Getters
+    // ========== GETTERS ==========
     public String getNombre() { return nombre; }
     public int getPoder() { return poder; }
     public Tipo getTipo() { return tipo; }

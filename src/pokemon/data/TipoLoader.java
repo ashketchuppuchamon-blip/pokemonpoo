@@ -9,8 +9,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * STATIC UTILITIES: Métodos estáticos para cargar datos.
+ * No necesita instancia porque es una utilidad.
+ */
 public class TipoLoader {
 
+    /**
+     * STATIC: Método utilitario que carga tipos desde JSON.
+     */
     public static void cargarTipos(String rutaArchivo) {
         try {
             String contenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
@@ -32,7 +39,7 @@ public class TipoLoader {
                         limpiarYConvertir(strStr)
                 );
             }
-            System.out.println("✅ Tabla de tipos cargada (Modo Nativo).");
+            System.out.println("✅ Tabla de tipos cargada correctamente.");
 
         } catch (IOException e) {
             System.err.println("❌ Error al leer el archivo: " + e.getMessage());
@@ -41,6 +48,9 @@ public class TipoLoader {
         }
     }
 
+    /**
+     * STATIC: Método privado de utilidad para limpiar strings de JSON.
+     */
     private static List<Tipo> limpiarYConvertir(String listaJson) {
         List<Tipo> tipos = new ArrayList<>();
         if (listaJson == null || listaJson.trim().isEmpty()) return tipos;
