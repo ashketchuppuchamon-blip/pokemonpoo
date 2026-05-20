@@ -1,27 +1,30 @@
 package pokemon.trainer;
 
 import pokemon.model.Estrategia;
+import pokemon.model.EstrategiaFactory;
 
 /**
- * Entrenador humano (controlado por el usuario).
- * DEFAULT: Visibilidad de paquete.
+ * Entrenador Jugador Humano.
+ * 
+ * DEFAULT: Visibilidad package-private.
+ * Utiliza estrategia de jugador humano (input manual).
+ * 
+ * @author UTP
  */
 class EntrenadorJugador extends Entrenador {
 
-    private String apodo;
-
-    EntrenadorJugador(String nombre, String apodo, Equipo equipo, Estrategia estrategia) {
-        super(nombre, equipo, estrategia);
-        this.apodo = apodo;
+    /**
+     * Constructor del entrenador jugador.
+     * 
+     * @param nombre Nombre del entrenador
+     * @param equipo Equipo de Pokémon
+     */
+    EntrenadorJugador(String nombre, Equipo equipo) {
+        super(nombre, equipo, EstrategiaFactory.crearEstrategiaJugador());
     }
 
     @Override
     public String getDescripcion() {
-        return String.format("👨 %s (Apodo: %s) - Victorias: %d | Derrotas: %d", 
-                             nombre, apodo, victorias, derrotas);
-    }
-
-    public String getApodo() {
-        return apodo;
+        return "🎮 Jugador Humano";
     }
 }

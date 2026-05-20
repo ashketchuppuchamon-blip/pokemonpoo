@@ -1,39 +1,63 @@
 package pokemon.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Enum de tipos Pokémon con sistema de efectividad de tipo.
- * STATIC: Los valores del enum son estáticos, se cargan UNA VEZ.
- * DEFAULT: Visibilidad package-private para métodos internos.
+ * Enumeración de tipos de Pokémon.
+ * 
+ * STATIC: Los enums son implícitamente static.
+ * Cada constante representa un tipo con propiedades fijas.
+ * 
+ * @author UTP
  */
 public enum Tipo {
-    NORMAL, FIRE, WATER, ELECTRIC, GRASS, ICE, FIGHTING, POISON,
-    GROUND, FLYING, PSYCHIC, BUG, ROCK, GHOST, DRAGON, DARK, STEEL, FAIRY;
+    FIRE("Fuego", "🔥"),
+    WATER("Agua", "💧"),
+    GRASS("Planta", "🌿"),
+    ELECTRIC("Eléctrico", "⚡"),
+    PSYCHIC("Psíquico", "🧠"),
+    DRAGON("Dragón", "🐉"),
+    FIGHTING("Lucha", "💪"),
+    ICE("Hielo", "❄️"),
+    NORMAL("Normal", "⚪"),
+    POISON("Veneno", "☠️"),
+    FLYING("Volador", "🦅"),
+    GROUND("Tierra", "🪨"),
+    ROCK("Roca", "🏔️"),
+    BUG("Bicho", "🐛"),
+    GHOST("Fantasma", "👻"),
+    STEEL("Acero", "⚙️"),
+    FAIRY("Hada", "✨"),
+    DARK("Siniestro", "🌑");
 
-    // Atributos (se crean UNA VEZ por tipo)
-    private List<Tipo> immunes = new ArrayList<>();
-    private List<Tipo> weaknesses = new ArrayList<>();
-    private List<Tipo> strengths = new ArrayList<>();
+    private final String nombre;
+    private final String emoji;
 
     /**
-     * DEFAULT: Solo clases del paquete model pueden configurar.
+     * Constructor privado del enum.
      */
-    void configurarRelaciones(List<Tipo> imm, List<Tipo> weak, List<Tipo> str) {
-        this.immunes = imm;
-        this.weaknesses = weak;
-        this.strengths = str;
+    Tipo(String nombre, String emoji) {
+        this.nombre = nombre;
+        this.emoji = emoji;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEmoji() {
+        return emoji;
     }
 
     /**
-     * Calcula la efectividad del ataque.
-     * PUBLIC: Es la interfaz pública del sistema de tipos.
+     * STATIC: Método de utilidad para obtener un tipo por nombre.
+     * 
+     * @param nombre Nombre del tipo
+     * @return El tipo encontrado o NORMAL por defecto
      */
-    public double efectividadContra(Tipo defensor) {
-        if (defensor.immunes.contains(this)) return 0.0;
-        if (this.strengths.contains(defensor)) return 2.0;
-        if (defensor.weaknesses.contains(this)) return 2.0;
-        return 1.0;
+    public static Tipo obtenerPorNombre(String nombre) {
+        try {
+            return Tipo.valueOf(nombre.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return NORMAL;
+        }
     }
 }

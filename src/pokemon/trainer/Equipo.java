@@ -1,44 +1,106 @@
 package pokemon.trainer;
 
 import pokemon.model.Pokemon;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase que representa el equipo de 6 Pokémon de un entrenador.
- * DEFAULT: Métodos internos son package-private.
+ * Representa el equipo de Pokémon de un entrenador.
+ * 
+ * Responsabilidades:
+ * - Gestionar la lista de Pokémon
+ * - Rastrear el Pokémon actual en batalla
+ * - Verificar estado del equipo
+ * 
+ * PUBLIC: Interfaz de acceso al equipo.
+ * PRIVADO: Detalles internos encapsulados.
+ * 
+ * @author UTP
  */
 public class Equipo {
 
-    private List<Pokemon> pokemons;
+    // ========== CONSTANTES PRIVADAS STATIC ==========
+    private static final int TAMAÑO_MAXIMO = 6;
+    private static final int INDICE_INICIAL = 0;
+
+    // ========== ATRIBUTOS PRIVADOS ==========
+    private final List<Pokemon> pokemon;
     private int indexActual;
 
-    public Equipo(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
-        this.indexActual = 0;
+    /**
+     * Constructor del equipo.
+     */
+    public Equipo() {
+        this.pokemon = new ArrayList<>(TAMAÑO_MAXIMO);
+        this.indexActual = INDICE_INICIAL;
     }
 
     /**
-     * DEFAULT: Método interno de acceso.
+     * Agrega un Pokémon al equipo.
+     * 
+     * @param p Pokémon a agregar
+     * @return true si fue agregado, false si equipo está lleno
      */
-    Pokemon get(int i) {
-        return pokemons.get(i);
-    }
-
-    public Pokemon getActual() {
-        return pokemons.get(indexActual);
-    }
-
-    /**
-     * DEFAULT: Cambio interno durante batalla.
-     */
-    void cambiarA(int index) {
-        if (index >= 0 && index < pokemons.size() && pokemons.get(index).estaVivo()) {
-            indexActual = index;
+    public boolean agregarPokemon(Pokemon p) {
+        if (pokemon.size() < TAMAÑO_MAXIMO && p != null) {
+            pokemon.add(p);
+            return true;
         }
+        return false;
     }
 
+    /**
+     * Cambia al Pokémon en el índice especificado.
+     * 
+     * @param index Índice del Pokémon (0-5)
+     * @return true si cambio fue exitoso
+     */
+    public boolean cambiarA(int index) {
+        if (index >= 0 && index < pokemon.size()) {
+            indexActual = index;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Obtiene el Pokémon actualmente en batalla.
+     * 
+     * @return Pokémon actual
+     */
+    public Pokemon getActual() {
+        return pokemon.get(indexActual);
+    }
+
+    /**
+     * Obtiene un Pokémon por índice.
+     * 
+     * @param index Índice del Pokémon
+     * @return Pokémon en ese índice
+     */
+    public Pokemon get(int index) {
+        if (index >= 0 && index < pokemon.size()) {
+            return pokemon.get(index);
+        }
+        return null;
+    }
+
+    /**
+     * Obtiene el tamaño del equipo.
+     * 
+     * @return Número de Pokémon
+     */
+    public int getTamaño() {
+        return pokemon.size();
+    }
+
+    /**
+     * Verifica si hay Pokémon vivos en el equipo.
+     * 
+     * @return true si al menos uno está vivo
+     */
     public boolean hayPokemonsVivos() {
-        for (Pokemon p : pokemons) {
+        for (Pokemon p : pokemon) {
             if (p.estaVivo()) {
                 return true;
             }
@@ -46,32 +108,23 @@ public class Equipo {
         return false;
     }
 
+    /**
+     * Cuenta cuántos Pokémon están vivos.
+     * 
+     * @return Número de Pokémon vivos
+     */
     public int getPokemonsVivos() {
-        int count = 0;
-        for (Pokemon p : pokemons) {
+        int vivos = 0;
+        for (Pokemon p : pokemon) {
             if (p.estaVivo()) {
-                count++;
+                vivos++;
             }
         }
-        return count;
+        return vivos;
     }
 
-    public List<Pokemon> getPokemons() {
-        return pokemons;
-    }
-
-    public int getTamaño() {
-        return pokemons.size();
-    }
-
-    public void mostrarEquipo() {
-        System.out.println("\n=== EQUIPO ===");
-        for (int i = 0; i < pokemons.size(); i++) {
-            Pokemon p = pokemons.get(i);
-            String marca = (i == indexActual) ? ">>> " : "    ";
-            String estado = p.estaVivo() ? "✓" : "✗";
-            System.out.printf("%s[%d] %s - HP: %d/%d %s\n", marca, i + 1, p.getNombre(), 
-                             p.getHp(), p.getHpMax(), estado);
-        }
+    @Override
+    public String toString() {
+        return String.format("Equipo [%d Pokémon]", pokemon.size());
     }
 }

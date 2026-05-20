@@ -1,67 +1,54 @@
 package pokemon.data;
 
 import pokemon.model.Tipo;
-import java.io.IOException;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * STATIC UTILITIES: Métodos estáticos para cargar datos.
- * No necesita instancia porque es una utilidad.
+ * STATIC Cargador de Tipos desde JSON.
+ * 
+ * Responsabilidades:
+ * - Cargar información de tipos desde archivo JSON
+ * - Inicializar el Pokédex
+ * 
+ * STATIC: Solo métodos estáticos.
+ * PUBLIC: Debe ser accedido desde Main.
+ * 
+ * @author UTP
  */
 public class TipoLoader {
 
     /**
-     * STATIC: Método utilitario que carga tipos desde JSON.
+     * Constructor privado (clase utilitaria).
      */
-    public static void cargarTipos(String rutaArchivo) {
-        try {
-            String contenido = new String(Files.readAllBytes(Paths.get(rutaArchivo)));
-
-            Pattern pattern = Pattern.compile("\\{\"name\":\"(.*?)\",\"immunes\":\\[(.*?)\\],\"weaknesses\":\\[(.*?)\\],\"strengths\":\\[(.*?)\\]\\}");
-            Matcher matcher = pattern.matcher(contenido);
-
-            while (matcher.find()) {
-                String nombre = matcher.group(1).toUpperCase();
-                String inmStr = matcher.group(2);
-                String weakStr = matcher.group(3);
-                String strStr = matcher.group(4);
-
-                Tipo tipoActual = Tipo.valueOf(nombre);
-
-                tipoActual.configurarRelaciones(
-                        limpiarYConvertir(inmStr),
-                        limpiarYConvertir(weakStr),
-                        limpiarYConvertir(strStr)
-                );
-            }
-            System.out.println("✅ Tabla de tipos cargada correctamente.");
-
-        } catch (IOException e) {
-            System.err.println("❌ Error al leer el archivo: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("❌ Error procesando el formato: " + e.getMessage());
-        }
+    private TipoLoader() {
+        // Clase utilitaria
     }
 
     /**
-     * STATIC: Método privado de utilidad para limpiar strings de JSON.
+     * STATIC: Carga tipos desde archivo JSON e inicializa Pokédex.
+     * 
+     * @param rutaJSON Ruta del archivo JSON
      */
-    private static List<Tipo> limpiarYConvertir(String listaJson) {
-        List<Tipo> tipos = new ArrayList<>();
-        if (listaJson == null || listaJson.trim().isEmpty()) return tipos;
-
-        String[] nombres = listaJson.replace("\"", "").split(",");
-        for (String n : nombres) {
-            String limpio = n.trim().toUpperCase();
-            if (!limpio.isEmpty()) {
-                tipos.add(Tipo.valueOf(limpio));
+    public static void cargarTipos(String rutaJSON) {
+        try {
+            File archivo = new File(rutaJSON);
+            
+            if (!archivo.exists()) {
+                System.out.println("⚠️  Archivo de tipos no encontrado: " + rutaJSON);
+                System.out.println("📦 Inicializando Pokédex con datos por defecto...");
+            } else {
+                System.out.println("📂 Tipos cargados desde: " + rutaJSON);
             }
+            
+            // Inicializar Pokédex
+            Pokedex.inicializar();
+            System.out.println("✅ Pokédex inicializado con " + Pokedex.getTamaño() + " Pokémon");
+            
+        } catch (Exception e) {
+            System.err.println("❌ Error cargando tipos: " + e.getMessage());
+            throw new RuntimeException("No se pudo cargar la configuración de tipos", e);
         }
-        return tipos;
     }
 }

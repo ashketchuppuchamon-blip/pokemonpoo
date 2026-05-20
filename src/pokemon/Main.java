@@ -5,20 +5,30 @@ import pokemon.ui.MenuPrincipal;
 
 /**
  * Punto de entrada principal de la aplicación Pokémon POO.
+ * 
+ * Responsabilidades:
+ * - Inicializar recursos globales (tipos de Pokémon)
+ * - Iniciar la interfaz de usuario
+ * 
  * @author UTP
- * @version 2.0 - Con static y default
+ * @version 3.0 - Optimizado con STATIC y DEFAULT
  */
 public class Main {
 
     /**
      * Método main - ejecuta la aplicación.
-     * STATIC: No necesita instancia de Main, es el punto de entrada.
+     * STATIC: Es el punto de entrada de la JVM, no requiere instancia.
      */
     public static void main(String[] args) {
-        // Cargar tipos desde JSON (operación única al inicio)
-        TipoLoader.cargarTipos("src/pokemon/data/tipos.json");
-
-        // Ejecutar menú principal
-        MenuPrincipal.iniciar();
+        try {
+            // Cargar tipos desde JSON (operación única al inicio)
+            TipoLoader.cargarTipos("src/pokemon/data/tipos.json");
+            
+            // Ejecutar menú principal
+            MenuPrincipal.iniciar();
+        } catch (Exception e) {
+            System.err.println("❌ Error al iniciar la aplicación: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
